@@ -3,12 +3,21 @@ import './App.css';
 import MovieBox from './MovieBox';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Modal, ModalBody, ModalHeader, ModalFooter} from 'react-bootstrap';
+import {show, Button} from 'react-bootstrap';
 
+const API_IMG = "https://image.tmdb.org/t/p/w500";
 
 
 const API_URL = "https://api.themoviedb.org/3/movie/popular?api_key=ba16880dd0b146d3f4fa4421c6cd688d";
 
 function App() {
+
+  //const [show, setShow] = useState(false);
+  const [show, setShow] = useState([]);
+
+
+    const handleShow=()=>setShow(true);
+    const handleClose=()=>setShow(false);
 
   const [movies, setMovies] = useState([]);
 
@@ -36,6 +45,8 @@ function App() {
     //  console.log(data.results);
 
       setMovies(data.results);
+      setShow(Array(data.length).fill(false));
+
       //console.log(); // add this line to see what data is being returned
     })
     .catch((err) => {
@@ -112,12 +123,83 @@ function App() {
       <button className='btn btn-success' onClick={() => { handleNewMovieClick(); handleInsertar(); }}>New Movie</button>
       <br/><br/>
       <div className='grid'>
-        {Array.prototype.map.call(movies, (movieReq)=> 
-        <MovieBox key={movieReq.id} {...movieReq}/>)}
-        <button className='btn btn-success' onClick={() => {
-          selectMovie(movies);
-          handleInsertar();
-        }}>Edit</button>
+
+
+
+        {/* {Array.prototype.map.call(movies, (movieReq)=> 
+        //<MovieBox key={movieReq.id} {...movieReq}/>
+        
+        <div className="card text-center bg-secendary mb-3">
+        <div className="card-body">
+            <img className="card-img-top" src={API_IMG+movieReq.poster_path}/>
+            <div className="card-body">
+                <button type="button" className="btn btn-dark" onClick={handleShow}>View More</button>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{movieReq.title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <img className="card-img-top" src={API_IMG+movieReq.poster_path}/>
+                        <h3>{movieReq.title}</h3>
+                        <h4>ImDb: {movieReq.vote_average}</h4>
+                        <h5>Release Date: {movieReq.release_date}</h5>
+                        <br></br>
+                        <h6>Overview</h6>
+                        <p>{movieReq.overview}</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button varient="secondary" onClick={handleClose}>Close</Button>
+                            <button type="button" className="btn btn-primary">Edit</button>
+                        </Modal.Footer>
+                </Modal>
+            </div>
+        </div>
+    </div>
+        
+        
+        )} */}
+
+      {Array.prototype.map.call(movies, (movieReq, index) => (
+        <div key={movieReq.id} className="card text-center bg-secendary mb-3">
+          <div className="card-body">
+            <img className="card-img-top" src={API_IMG + movieReq.poster_path} alt={movieReq.title} />
+            <div className="card-body">
+              <button type="button" className="btn btn-dark" onClick={() => setShow([...show.slice(0, index), true, ...show.slice(index+1)])}>View More</button>
+              <button className='btn btn-success' onClick={() => {
+                selectMovie(movieReq);
+                handleInsertar();
+              }}>Edit</button>
+              <Modal show={show[index]} onHide={() => setShow([...show.slice(0, index), false, ...show.slice(index+1)])}>
+                <Modal.Header closeButton>
+                  <Modal.Title>{movieReq.title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <img className="card-img-top" src={API_IMG + movieReq.poster_path} alt={movieReq.title} />
+                  <h3>{movieReq.title}</h3>
+                  <h4>ImDb: {movieReq.vote_average}</h4>
+                  <h5>Release Date: {movieReq.release_date}</h5>
+                  <br></br>
+                  <h6>Overview</h6>
+                  <p>{movieReq.overview}</p>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button varient="secondary" onClick={() => setShow([...show.slice(0, index), false, ...show.slice(index+1)])}>Close</Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
+          </div>
+        </div>
+      ))}
+
+        
+
+
+        
+
+
+
+
+
       </div>
 
       <Modal show={insertar} onHide={handleNotInsertar}>
@@ -127,7 +209,7 @@ function App() {
           <ModalBody>
             <div className="form-group">
               <label htmlFor="title">Title</label>
-              <input className='form-control' type="text" name="title" id="title" onChange={handleChange} value={form?form.name: ''}/>
+              <input className='form-control' type="text" name="title" id="title" onChange={handleChange} value={form?form.title: ''}/>
               <br/>
               <label htmlFor="poster_path">Poster path</label>
               <input className='form-control' type="text" name="poster_path" id="poster_path" onChange={handleChange} value={form?form.poster_path: ''}/>
@@ -144,7 +226,7 @@ function App() {
           </ModalBody>
           
           <ModalFooter>
-            {tipoModal==='insertar'?
+            {tipoModal =='insertar'?
             <button className="btn btn-success">Insertar</button>:  //En esta linea poner onCLick={postMovie} cuando sirva
             <button className="btn btn-primary" onClick={putMovie}>Actualizar</button>
           }
