@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Modal, show, Button} from 'react-bootstrap';
+// i want to import app.js
+import App from "./App";
 
 const API_IMG = "https://image.tmdb.org/t/p/w500";
 
@@ -31,6 +33,7 @@ const MovieBox  =({title, poster_path, vote_average, release_date, overview})=>{
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button varient="secondary" onClick={handleClose}>Close</Button>
+                                <button type="button" className="btn btn-primary">Edit</button>
                             </Modal.Footer>
                     </Modal>
                 </div>
