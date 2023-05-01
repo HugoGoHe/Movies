@@ -1,0 +1,34 @@
+GET http://localhost:3001/movies/ HTTP/1.1
+
+###
+GET http://localhost:3001/movies/ HTTP/1.1
+
+###
+POST http://localhost:3001/movies HTTP/1.1
+
+Content-Type: application/json
+
+{
+    "name": "Howls Moving Castle",
+    "genre": "Adventure",
+    "cover": "https://cdn.amightygirl.com/catalog/product/cache/1/image/602f0fa2c1f0d1ba5e241f914e856ff9/h/o/howls-moving-castle-full-new.jpg",
+    "summary": "When an unconfident young woman is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking castle.",
+    "director": "Hayao Miyazaki"
+}
+
+###
+PUT http://localhost:3001/movies/1 HTTP/1.1
+
+Content-Type: application/json
+
+{
+    "name": "Deadpool",
+    "genre": "Action",
+    "cover": "https://1.bp.blogspot.com/-qcNErmOhBb4/V5IDharuW3I/AAAAAAAAEKM/N2dqedo1jfE5oSE3_hxokuXQGrgxqtj8QCLcB/s1600/deadpool.jpg",
+    "summary": "A wisecracking mercenary gets experimented on and becomes immortal but ugly, and sets out to track down the man who ruined his looks.",
+    "director": "Tim Miller"
+}
+
+
+###
+DELETE http://localhost:3001/movies/4 HTTP/1.1
