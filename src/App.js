@@ -36,7 +36,7 @@ function App() {
 
   const [tipoModal, setTipoModal] = useState("");
 
-
+  //PETICION GET
   const fetchData = () => {
     fetch(API_URL)
     .then(res => res.json())
@@ -59,7 +59,7 @@ function App() {
     fetchData();
   }, []);
 
-  //Peticion Post para agregar una pelicula con los inputs del usuario
+  //PETICION POST para agregar una pelicula con los inputs del usuario
   const postMovie = async () => {
 
   };
@@ -92,7 +92,7 @@ function App() {
     handleInsertar();
   };
 
-  //metodo put
+  //PETICION PUT
   const putMovie = () => {
     var data = {
       title: form.title,
@@ -115,7 +115,7 @@ function App() {
     handleInsertar();
   };
 
-  //metodo delete
+  //PETICION DELETE
   const deleteMovie = (movie) => {
     var url = "http://localhost:3000/movies/" + movie.id;
     fetch(url, {
@@ -182,6 +182,7 @@ function App() {
               <button className='btn btn-success' onClick={() => {
                 selectMovie(movieReq);
                 handleInsertar();
+                setTipoModal("");
               }}>Edit</button>
               <button type="button" className='btn btn-danger' onClick={() => deleteMovie(movieReq.id)}>Delete</button>
               <Modal show={show[index]} onHide={() => setShow([...show.slice(0, index), false, ...show.slice(index+1)])}>
