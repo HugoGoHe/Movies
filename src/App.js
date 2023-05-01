@@ -115,6 +115,20 @@ function App() {
     handleInsertar();
   };
 
+  //metodo delete
+  const deleteMovie = (movie) => {
+    var url = "http://localhost:3000/movies/" + movie.id;
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json())
+    .then((response) => fetchData())
+    .catch((err) => console.error(err));
+  };
+
+
 
   return (
     
@@ -169,6 +183,7 @@ function App() {
                 selectMovie(movieReq);
                 handleInsertar();
               }}>Edit</button>
+              <button type="button" className='btn btn-danger' onClick={() => deleteMovie(movieReq.id)}>Delete</button>
               <Modal show={show[index]} onHide={() => setShow([...show.slice(0, index), false, ...show.slice(index+1)])}>
                 <Modal.Header closeButton>
                   <Modal.Title>{movieReq.title}</Modal.Title>
